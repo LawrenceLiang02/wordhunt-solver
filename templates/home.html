@@ -42,7 +42,7 @@
             
             </div>
             
-            <button id="find" class="p-2 bg-yellow-200 rounded-lg px-8 text-green-500 font-bold uppercase" type="submit" name="submit_button" >Find</button>
+            <button id="find" class="p-2 bg-yellow-200 rounded-lg px-8 text-green-500 font-bold uppercase border-green-600 border-4" type="submit" name="submit_button" >Find</button>
             
 
             {% if words %}
@@ -69,6 +69,39 @@
     </div>
     
 </body>
+
+<script>
+    document.getElementById("find").addEventListener("click", function () {
+        var arrays = [];
+        for (var i = 1; i <= 4; i++) {
+            var array = [];
+            for (var j = 1; j <= 4; j++) {
+                var input = document.getElementById(i.toString() + j.toString());
+                array.push(input.value);
+            }
+            arrays.push(array);
+        }
+
+        // Now 'arrays' contains the values in the format you want
+        // Send the data to the server using an HTTP POST request
+        fetch('/find', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(arrays),
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Handle response data here
+            console.log(data);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    });
+</script>
+
 </html>
 
 
